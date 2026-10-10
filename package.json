@@ -1,0 +1,11 @@
+{
+  "name": "club-memoria",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Club Memoria — Estimulación Cognitiva y Motriz para Adultos Mayores",
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/core": "^6.1.2"
+  }
+}

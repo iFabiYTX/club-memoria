@@ -28,26 +28,24 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Preparar carpeta web
+      - name: Preparar carpeta web www
         run: |
           mkdir -p www
           cp -r index.html styles.css app.js manifest.json sw.js icon-192.png icon-512.png games www/
 
-      - name: Instalar Capacitor
+      - name: Instalar dependencias
         run: |
-          npm init -y
-          npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
+          npm install
 
-      - name: Inicializar Capacitor para Android
+      - name: Crear proyecto Android
         run: |
-          npx cap init "Club Memoria" "com.echomaiicorp.clubmemoria" --web-dir "www"
           npx cap add android
 
-      - name: Actualizar icono de la app en Android
+      - name: Actualizar icono en Android
         run: |
-          find android/app/src/main/res/ -name "ic_launcher*.png" -exec cp icon-512.png {} \; || true
+          find android/app/src/main/res/ -name "ic_launcher*.png" -exec cp icon-512.png {} \; 2>/dev/null || true
 
-      - name: Sincronizar proyecto Android
+      - name: Sincronizar archivos web
         run: |
           npx cap sync android
 
@@ -55,11 +53,11 @@ jobs:
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
+          ./gradlew assembleDebug --no-daemon
 
       - name: Renombrar APK
         run: |
-          mv android/app/build/outputs/apk/debug/app-debug.apk Club-Memoria-v1.0.apk
+          cp android/app/build/outputs/apk/debug/app-debug.apk Club-Memoria-v1.0.apk
 
       - name: Subir APK como artefacto descargable
         uses: actions/upload-artifact@v4
@@ -72,7 +70,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release delete v1.0.0 --repo ${{ github.repository }} --yes || true
+          gh release delete v1.0.0 --repo ${{ github.repository }} --yes 2>/dev/null || true
           git tag -d v1.0.0 2>/dev/null || true
           gh release create v1.0.0 Club-Memoria-v1.0.apk \
             --title "Club Memoria v1.0 — APK para Android" \
