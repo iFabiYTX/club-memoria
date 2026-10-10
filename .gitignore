@@ -1,0 +1,4 @@
+# Dependencias del sistema y temporales
+.DS_Store
+Thumbs.db
+*.log

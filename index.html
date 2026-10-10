@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Club Memoria — Estimulación Cognitiva y Motriz</title>
+  <meta name="description" content="Aplicación interactiva y accesible para adultos mayores desarrollada por Echomaii Corp. Estimulación cognitiva, memoria de trabajo, metacognición y motricidad fina.">
+  <meta name="theme-color" content="#2B6E62">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Club Memoria">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div id="app-container">
+    <!-- Cabecera Común Accesible -->
+    <header class="app-header">
+      <div class="header-left">
+        <button id="btn-back" class="btn-header-back" style="display: none;" aria-label="Volver al menú principal">
+          ← <span>Volver</span>
+        </button>
+        <div class="brand-badge">
+          <span class="brand-title">Club Memoria</span>
+          <span class="brand-sub">ECHOMAII CORP</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="btn-top-ranking" class="btn-icon-action" aria-label="Ver Top Jugadores" title="Top Jugadores">
+          🏆
+        </button>
+        <button id="btn-sound-toggle" class="btn-icon-action" aria-label="Activar o desactivar sonido" title="Sonido">
+          🔔
+        </button>
+        <button id="btn-font-toggle" class="btn-icon-action" aria-label="Cambiar tamaño de letra" title="Tamaño de letra">
+          A+
+        </button>
+      </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+
+      <!-- ==============================================
+           PANTALLA 1: INICIO Y MENÚ PRINCIPAL
+           ============================================== -->
+      <section id="screen-home" class="view-screen active">
+        <!-- Tarjeta de Bienvenida y Perfil -->
+        <div class="welcome-hero">
+          <div class="hero-avatar" aria-hidden="true">🌱</div>
+          <h1 class="hero-title" id="welcome-greeting">¡Hola, te damos la bienvenida!</h1>
+          <p class="hero-subtitle">Un espacio cálido para ejercitar tu mente a tu propio ritmo.</p>
+          
+          <div id="user-greeting-box" style="margin-top: 10px;">
+            <div id="user-badge" class="user-name-badge">
+              Jugador: <strong id="display-user-name">Chio</strong> 
+              <button id="btn-edit-name" style="background:none; border:none; cursor:pointer; font-size:16px; margin-left:6px;" title="Cambiar nombre">✏️</button>
+            </div>
+            <div id="user-input-box" style="display: none; margin-top: 10px; gap: 8px; justify-content: center;">
+              <input type="text" id="input-user-name" placeholder="Escribe tu nombre..." style="font-size: 18px; padding: 10px 14px; border: 2px solid var(--primary); border-radius: 12px; width: 65%;">
+              <button id="btn-save-name" class="btn-font-choice selected" style="padding: 10px 16px;">Guardar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selector de Tamaño de Letra Rápido -->
+        <div class="font-toggle-card">
+          <span class="font-toggle-label">Tamaño de letra:</span>
+          <div class="font-toggle-btns">
+            <button id="btn-font-normal" class="btn-font-choice selected">Normal</button>
+            <button id="btn-font-large" class="btn-font-choice">Muy Grande</button>
+          </div>
+        </div>
+
+        <!-- Rincón de Logros y Estrellas Semanales -->
+        <div class="achievements-card">
+          <div class="stars-summary">
+            <span class="star-giant" aria-hidden="true">⭐</span>
+            <div style="flex: 1;">
+              <span class="stars-count-text" id="stars-total-text">Estrellas ganadas: 0</span>
+              <p style="font-size: 14px; color: var(--text-muted); margin-top: 2px;">¡Supera niveles para ganar más estrellas y subir en el Top!</p>
+            </div>
+            <button id="btn-open-ranking-card" class="btn-hint" style="background: #FFF8E1; border-color: #FFA000; color: #B26A00;">
+              🏆 <span>Top</span>
+            </button>
+          </div>
+          <div class="calendar-week" id="calendar-week-display">
+            <!-- Días de la semana generados por JS -->
+          </div>
+        </div>
+
+        <!-- Catálogo de 4 Juegos de Chio -->
+        <h2 class="section-heading">Actividades Disponibles</h2>
+        <div class="games-grid">
+          
+          <!-- 1. Rompecabezas con Niveles Candy Crush -->
+          <button class="game-card-btn" data-game="puzzle" aria-label="Abrir juego de Rompecabezas">
+            <div class="game-icon-box icon-puzzle">🧩</div>
+            <div class="game-info">
+              <h3 class="game-title">Rompecabezas por Niveles</h3>
+              <p class="game-description">100 niveles divididos en 4 fases con camino estilo Candy Crush.</p>
+            </div>
+            <span class="game-arrow" aria-hidden="true">➔</span>
+          </button>
+
+          <!-- 2. Sudoku 9x9 con Dificultades -->
+          <button class="game-card-btn" data-game="sudoku" aria-label="Abrir juego de Sudoku 9x9">
+            <div class="game-icon-box icon-sudoku">🔢</div>
+            <div class="game-info">
+              <h3 class="game-title">Sudoku 9x9 (Con Vidas)</h3>
+              <p class="game-description">Cuadrícula clásica 9x9 con 4 dificultades y 3 vidas por partida.</p>
+            </div>
+            <span class="game-arrow" aria-hidden="true">➔</span>
+          </button>
+
+          <!-- 3. Sopa de Letras Avanzada -->
+          <button class="game-card-btn" data-game="wordsearch" aria-label="Abrir juego de Sopa de Letras">
+            <div class="game-icon-box icon-sopa">🔍</div>
+            <div class="game-info">
+              <h3 class="game-title">Sopa de Letras Gigante</h3>
+              <p class="game-description">Modo Fácil (10x10 horizontal/vertical) y Modo Difícil (12x12 en todas direcciones).</p>
+            </div>
+            <span class="game-arrow" aria-hidden="true">➔</span>
+          </button>
+
+          <!-- 4. Búsqueda de Diferencias -->
+          <button class="game-card-btn" data-game="differences" aria-label="Abrir juego de Búsqueda de Diferencias">
+            <div class="game-icon-box icon-diferencias">👀</div>
+            <div class="game-info">
+              <h3 class="game-title">Busca Diferencias</h3>
+              <p class="game-description">Observa con atención y descubre los detalles cambiados en las escenas.</p>
+            </div>
+            <span class="game-arrow" aria-hidden="true">➔</span>
+          </button>
+
+        </div>
+      </section>
+
+
+      <!-- ==============================================
+           PANTALLA 2: JUEGO ROMPECABEZAS (100 NIVELES Y FASES)
+           ============================================== -->
+      <section id="screen-game-puzzle" class="view-screen">
+        <div class="game-top-bar">
+          <div>
+            <span class="game-meta-text" id="puzzle-title-bar">🧩 Rompecabezas</span>
+            <div style="font-size: 14px; color: var(--text-muted);" id="puzzle-progress-text">Selecciona un nivel del camino</div>
+          </div>
+          <button id="btn-puzzle-back-to-map" class="btn-hint" style="display: none;">
+            🗺️ <span>Ver Camino</span>
+          </button>
+          <button id="btn-puzzle-hint" class="btn-hint" style="display: none;" title="Ver imagen completa">
+            👁️ <span>Ver foto</span>
+          </button>
+        </div>
+
+        <div class="puzzle-container">
+          <!-- Vista A: Selector de Fases y Camino de Niveles Candy Crush -->
+          <div id="puzzle-levels-map-view" style="display: flex; flex-direction: column; width: 100%; gap: 10px;">
+            <!-- Pestañas de Fases / Mundos -->
+            <div class="phase-selector-tabs" id="puzzle-phase-tabs">
+              <button class="btn-phase-tab active" data-phase="1">🌸 Flores<br>1-25</button>
+              <button class="btn-phase-tab" data-phase="2">🐶 Animales<br>26-50</button>
+              <button class="btn-phase-tab" data-phase="3">🏞️ Paisajes<br>51-75</button>
+              <button class="btn-phase-tab" data-phase="4">🎨 Arte<br>76-100</button>
+            </div>
+
+            <!-- Contenedor Scrolleable con Fondo Decorado -->
+            <div class="candy-map-scroll" id="candy-map-scroll">
+              <div id="puzzle-levels-path" class="candy-levels-map">
+                <!-- Nodos en zig-zag y banners generados por JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Vista B: Tablero de Juego Activo -->
+          <div id="puzzle-board-view" style="display: none; flex-direction: column; align-items: center; gap: 14px; width: 100%;">
+            <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+              <span id="puzzle-level-indicator" style="font-size: 18px; font-weight: 800; color: var(--primary);">Nivel 1</span>
+              <span id="puzzle-moves-counter" style="font-size: 15px; color: var(--text-muted);">Movimientos: 0</span>
+            </div>
+
+            <div id="puzzle-board" class="puzzle-board grid-2x2">
+              <!-- Piezas generadas por JS -->
+            </div>
+
+            <button id="btn-puzzle-restart" class="btn-font-choice" style="width: 100%; min-height: 48px;">
+              🔄 Reiniciar nivel
+            </button>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ==============================================
+           PANTALLA 3: JUEGO SUDOKU 9x9 PROFESIONAL (CON VIDAS)
+           ============================================== -->
+      <section id="screen-game-sudoku" class="view-screen">
+        <div class="game-top-bar">
+          <div>
+            <span class="game-meta-text" id="sudoku-meta-title">🔢 Sudoku 9x9</span>
+            <div style="font-size: 14px; color: var(--text-muted);" id="sudoku-meta-sub">Dificultad: Fácil</div>
+          </div>
+          <!-- Vidas exclusivas del Sudoku -->
+          <div class="lives-indicator" id="sudoku-lives" title="Vidas en esta partida">
+            <span class="heart-icon" id="sudoku-heart-1">❤️</span>
+            <span class="heart-icon" id="sudoku-heart-2">❤️</span>
+            <span class="heart-icon" id="sudoku-heart-3">❤️</span>
+          </div>
+          <button id="btn-sudoku-hint" class="btn-hint">
+            💡 <span>Pista</span>
+          </button>
+        </div>
+
+        <div class="sudoku-container">
+          <!-- Selector de las 4 Dificultades -->
+          <div class="difficulty-selector">
+            <button class="btn-diff-choice selected" data-diff="easy">Fácil</button>
+            <button class="btn-diff-choice" data-diff="medium">Medio</button>
+            <button class="btn-diff-choice" data-diff="hard">Avanzado</button>
+            <button class="btn-diff-choice" data-diff="expert">Extremo</button>
+          </div>
+
+          <!-- Tablero 9x9 -->
+          <div class="sudoku-board-wrap">
+            <div id="sudoku-board" class="sudoku-grid-9x9">
+              <!-- 81 Celdas generadas por JS -->
+            </div>
+          </div>
+
+          <!-- Teclado Numérico Gigante en 2 Filas -->
+          <div class="sudoku-keypad-9" id="sudoku-keypad">
+            <div class="keypad-row">
+              <button class="btn-sudoku-num-9" data-val="1">1</button>
+              <button class="btn-sudoku-num-9" data-val="2">2</button>
+              <button class="btn-sudoku-num-9" data-val="3">3</button>
+              <button class="btn-sudoku-num-9" data-val="4">4</button>
+              <button class="btn-sudoku-num-9" data-val="5">5</button>
+            </div>
+            <div class="keypad-row">
+              <button class="btn-sudoku-num-9" data-val="6">6</button>
+              <button class="btn-sudoku-num-9" data-val="7">7</button>
+              <button class="btn-sudoku-num-9" data-val="8">8</button>
+              <button class="btn-sudoku-num-9" data-val="9">9</button>
+              <button class="btn-sudoku-num-9 erase-btn" id="btn-sudoku-erase" title="Borrar número">⌫</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ==============================================
+           PANTALLA 4: JUEGO SOPA DE LETRAS EXPANDIDA
+           ============================================== -->
+      <section id="screen-game-wordsearch" class="view-screen">
+        <div class="game-top-bar">
+          <div>
+            <span class="game-meta-text">🔍 Sopa de Letras</span>
+            <div style="font-size: 14px; color: var(--text-muted);" id="ws-difficulty-indicator">Fácil (10x10) — Horiz. y Vert.</div>
+          </div>
+          <button id="btn-ws-hint" class="btn-hint">
+            💡 <span>Pista</span>
+          </button>
+        </div>
+
+        <div class="wordsearch-container">
+          <!-- Selector de Dificultad de Sopa -->
+          <div style="display: flex; gap: 8px; width: 100%; justify-content: center;">
+            <button class="btn-font-choice selected ws-diff-btn" data-wsdiff="easy">
+              Fácil (10x10 H/V)
+            </button>
+            <button class="btn-font-choice ws-diff-btn" data-wsdiff="hard">
+              Difícil (12x12 Todas Direcciones)
+            </button>
+          </div>
+
+          <!-- Selector de Temas -->
+          <div style="display: flex; gap: 6px; width: 100%; justify-content: center;">
+            <button class="btn-font-choice selected ws-theme-btn" data-theme="frutas">🍎 Frutas</button>
+            <button class="btn-font-choice ws-theme-btn" data-theme="flores">🌺 Flores</button>
+            <button class="btn-font-choice ws-theme-btn" data-theme="ciudades">🌍 Lugares</button>
+          </div>
+
+          <div style="font-size: 14px; color: var(--text-muted); text-align: center;">
+            👉 <strong>Desliza tu dedo</strong> sobre la palabra (o toca la primera y última letra).
+          </div>
+
+          <!-- Cuadrícula de Letras -->
+          <div class="wordsearch-grid-wrap">
+            <div id="wordsearch-grid" class="wordsearch-grid size-10">
+              <!-- Celdas generadas por JS -->
+            </div>
+          </div>
+
+          <!-- Palabras por encontrar -->
+          <div class="words-to-find" id="words-list-container">
+            <!-- Chips de palabras generadas por JS -->
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ==============================================
+           PANTALLA 5: JUEGO BÚSQUEDA DE DIFERENCIAS (10 NIVELES)
+           ============================================== -->
+      <section id="screen-game-differences" class="view-screen">
+        <div class="game-top-bar">
+          <div>
+            <span class="game-meta-text">👀 Busca las 3 Diferencias</span>
+            <div style="font-size: 14px; color: var(--text-muted);" id="diff-counter-text">Diferencias encontradas: 0 de 3</div>
+          </div>
+          <button id="btn-diff-hint" class="btn-hint">
+            💡 <span>Pista</span>
+          </button>
+        </div>
+
+        <div class="diff-container">
+          <!-- Controles de Nivel con Flechas y Título -->
+          <div class="diff-level-controls">
+            <div class="diff-level-nav-bar">
+              <button id="btn-diff-prev" class="btn-level-arrow" aria-label="Nivel anterior">◀</button>
+              <div class="diff-level-info">
+                <span id="diff-level-badge" class="diff-level-badge">🏡 Nivel 1 de 10</span>
+                <span id="diff-level-title" class="diff-level-title">El Jardín Florido</span>
+              </div>
+              <button id="btn-diff-next" class="btn-level-arrow" aria-label="Siguiente nivel">▶</button>
+            </div>
+
+            <!-- Tira de Píldoras de los 10 Niveles -->
+            <div class="diff-levels-pills" id="diff-levels-pills">
+              <!-- Botones de nivel 1-10 generados dinámicamente -->
+            </div>
+          </div>
+
+          <!-- Imagen 1 (Original) -->
+          <div class="diff-image-box" id="diff-box-1" aria-label="Primera imagen para comparar">
+            <span class="diff-label-badge">Imagen 1</span>
+            <svg id="svg-diff-1" viewBox="0 0 320 180" style="width: 100%; height: 100%;"></svg>
+          </div>
+
+          <!-- Imagen 2 (Con diferencias) -->
+          <div class="diff-image-box" id="diff-box-2" aria-label="Segunda imagen con diferencias">
+            <span class="diff-label-badge">Imagen 2 (Toca aquí los cambios)</span>
+            <svg id="svg-diff-2" viewBox="0 0 320 180" style="width: 100%; height: 100%;"></svg>
+          </div>
+
+          <!-- Tarjeta de Celebración de Nivel Completado -->
+          <div id="diff-level-complete-card" class="diff-complete-card" style="display: none;">
+            <div style="font-size: 32px;">🎉</div>
+            <div style="font-weight: 800; font-size: 19px; color: #1B5E20;" id="diff-complete-title">¡Nivel Completado!</div>
+            <p style="font-size: 14px; color: var(--text-muted); margin: 2px 0 10px;">¡Excelente agudeza visual! Has descubierto todas las diferencias.</p>
+            <button id="btn-diff-next-level" class="btn-primary-action" style="min-height: 48px; width: 100%;">
+              🌟 Siguiente Nivel ▶
+            </button>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ==============================================
+           PANTALLA 6: TOP JUGADORES / SALÓN DE HONOR
+           ============================================== -->
+      <section id="screen-leaderboard" class="view-screen">
+        <div class="leaderboard-card">
+          <div style="text-align: center;">
+            <div style="font-size: 46px;">🏆</div>
+            <h2 style="font-size: var(--font-title); color: var(--primary); font-weight: 800;">Salón de Honor</h2>
+            <p style="font-size: var(--font-base); color: var(--text-muted);">Tabla de los mejores jugadores de Club Memoria</p>
+          </div>
+
+          <!-- Podio -->
+          <div class="podium-container" id="podium-display">
+            <!-- Lugares 2, 1, 3 inyectados por JS -->
+          </div>
+
+          <!-- Lista de Clasificación -->
+          <div class="ranking-list" id="ranking-list-display">
+            <!-- Filas inyectadas por JS -->
+          </div>
+
+          <button id="btn-close-leaderboard" class="btn-primary-action" style="margin-top: 10px;">
+            🏠 Volver al Inicio
+          </button>
+        </div>
+      </section>
+
+
+      <!-- ==============================================
+           PANTALLA 7: MÓDULO DE METACOGNICIÓN Y BIENESTAR
+           ============================================== -->
+      <section id="screen-metacognition" class="view-screen">
+        <div class="metacog-card">
+          <div style="font-size: 50px;">🌟</div>
+          <h2 class="metacog-title">¡Gran trabajo realizado!</h2>
+          <p class="metacog-subtitle">Has dedicado un momento valioso a ejercitar tu mente. Tómate un segundo para reflexionar:</p>
+          
+          <h3 style="font-size: var(--font-lg); color: var(--primary); margin-top: 10px;">¿Cómo te sentiste durante la actividad?</h3>
+          
+          <div class="mood-options-grid">
+            <button class="btn-mood-choice" data-mood="energico">
+              <span class="mood-icon">😄</span>
+              <div style="text-align: left;">
+                <div style="font-size: var(--font-base); font-weight: 800;">Con mucha energía</div>
+                <div style="font-size: 14px; color: var(--text-muted);">Me resultó muy entretenido y motivador</div>
+              </div>
+            </button>
+
+            <button class="btn-mood-choice" data-mood="tranquilo">
+              <span class="mood-icon">😌</span>
+              <div style="text-align: left;">
+                <div style="font-size: var(--font-base); font-weight: 800;">Tranquilo y enfocado</div>
+                <div style="font-size: 14px; color: var(--text-muted);">Disfruté resolverlo con calma y paciencia</div>
+              </div>
+            </button>
+
+            <button class="btn-mood-choice" data-mood="cansado">
+              <span class="mood-icon">☕</span>
+              <div style="text-align: left;">
+                <div style="font-size: var(--font-base); font-weight: 800;">Un poco cansado</div>
+                <div style="font-size: 14px; color: var(--text-muted);">Es momento de descansar la vista y tomar agua</div>
+              </div>
+            </button>
+          </div>
+
+          <div id="metacog-feedback-message" style="display: none; background: #E8F5E9; border: 2px solid #81C784; border-radius: 14px; padding: 14px; margin-top: 10px; font-size: var(--font-base); color: #1B5E20; font-weight: 700;"></div>
+
+          <button id="btn-metacog-finish" class="btn-primary-action" style="display: none; margin-top: 10px;">
+            🏠 Volver al Menú Principal
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Modal de Felicitación / Éxito -->
+    <div id="modal-celebration" class="modal-overlay" role="dialog" aria-modal="true">
+      <div class="celebration-modal">
+        <div class="modal-icon">🎉</div>
+        <h2 class="modal-title" id="celebration-title">¡Completado con éxito!</h2>
+        <p class="modal-message" id="celebration-message">Has entrenado tu mente y tu coordinación maravillosamente.</p>
+        <button id="btn-celebration-continue" class="btn-primary-action">
+          Continuar ➔
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal de Pérdida de Vidas / Game Over Amigable -->
+    <div id="modal-game-over" class="modal-overlay" role="dialog" aria-modal="true">
+      <div class="celebration-modal">
+        <div class="modal-icon">💔</div>
+        <h2 class="modal-title" style="color: #D32F2F;">¡Se acabaron las vidas!</h2>
+        <p class="modal-message">No te preocupes, el aprendizaje viene de la práctica. ¿Quieres recargar tus vidas y reintentar?</p>
+        <button id="btn-restart-lives" class="btn-primary-action" style="background: #2B6E62;">
+          ❤️ Recargar vidas y seguir jugando
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal de Vista Previa de Imagen Completa (Para Rompecabezas) -->
+    <div id="modal-image-preview" class="modal-overlay" role="dialog" aria-modal="true">
+      <div class="celebration-modal">
+        <h2 class="modal-title" style="font-size: 22px;">Guía de la Imagen</h2>
+        <div id="preview-image-container" style="width: 260px; height: 260px; margin: 0 auto; border-radius: 14px; overflow: hidden; border: 3px solid var(--primary);"></div>
+        <button id="btn-close-preview" class="btn-primary-action" style="margin-top: 10px;">
+          Entendido, ¡a jugar!
+        </button>
+      </div>
+    </div>
+
+    <!-- Pie de Página -->
+    <footer class="app-footer">
+      <strong>Club Memoria</strong> — Hecho con cariño para <strong>Chio</strong><br>
+      Desarrollado por <strong>Echomaii Corp</strong> • Versión 1.1 Gratuita
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="games/puzzle.js"></script>
+  <script src="games/sudoku.js"></script>
+  <script src="games/wordsearch.js"></script>
+  <script src="games/differences.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
